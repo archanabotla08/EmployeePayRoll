@@ -1,0 +1,43 @@
+package com.blz.employeepayrolltest_dbtest;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+
+public class EmployeePayRollDBService {
+	private Connection getConnection() throws SQLException {
+		String jdbcURL = "jdbc:mysql://localhost:3306/employee_payroll?useSSL=false";
+		String userName = "root";
+		String password = "root";
+		Connection connection;
+		System.out.println("Connecting to database: " + jdbcURL);
+		connection = DriverManager.getConnection(jdbcURL, userName, password);
+		System.out.println("Connection successful: " + connection);
+		return connection;
+	}
+	public List<EmployeePayRollData> readData() {
+		String sql = "SELECT* FROM employee_payroll_basic;";
+		List<EmployeePayRollData> employeePayrollList = new ArrayList<EmployeePayRollData>();
+		try{
+			Connection connection = this.getConnection();
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(sql);
+			while(resultSet.next()) {
+				int id = resultSet.getInt("id");
+				String name = resultSet.getString("name");
+				double salary = resultSet.getDouble("salary");
+				LocalDate startDate = resultSet.getDate("start").toLocalDate();
+				employeePayrollList.add(new EmployeePayRollData(id, name, salary,startDate));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return employeePayrollList;
+	}
+}
