@@ -2,8 +2,10 @@ package com.blz.employeepayrolltest_dbtest;
 
 import static org.junit.Assert.*;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -40,6 +42,14 @@ public class EmployeePayRollTest {
 		List<EmployeePayRollData> employeePayRollData = 
 				employeePayRollService.readPayRollDataForDateRange(IOService.DB_IO,startDate,endDate);
 		assertEquals(2,employeePayRollData.size());
+	}
+	
+	@Test
+	public void givenPayRollData_WhenAverageSalaryRetriveByGender_ShouldRetriveProperValue() throws SQLException {
+		employeePayRollService.readPayRollData(IOService.DB_IO);
+		Map<String,Double> averageSalaryByGender = employeePayRollService.readAverageSalaryByGender(IOService.DB_IO);
+		assertTrue(averageSalaryByGender.get("F").equals(50000.0) &&
+				averageSalaryByGender.get("M").equals(65000.0) );
 	}
 }
 
