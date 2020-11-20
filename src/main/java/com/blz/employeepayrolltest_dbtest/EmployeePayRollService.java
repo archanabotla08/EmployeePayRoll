@@ -10,11 +10,37 @@ public class EmployeePayRollService {
 	}
 
 	private static List<EmployeePayRollData> employeePayRollList;
+	private static EmployeePayRollDBService employeePayRollDBService;
+	
+	public EmployeePayRollService() {
+		employeePayRollDBService = EmployeePayRollDBService.getInstance();
+	}
 
 	public List<EmployeePayRollData> readPayRollData(IOService ioService) {
 		if (ioService.equals(IOService.DB_IO))
-			this.employeePayRollList = new EmployeePayRollDBService().readData();
+			this.employeePayRollList = employeePayRollDBService.readData();
 		return employeePayRollList;
 	}
+	
+	public boolean checkEmployeePayRollInSyncWithDB(String name) {
+		List<EmployeePayRollData> employeePayRollDataList = employeePayRollDBService.getEmployeePayRollData(name);
+		return employeePayRollDataList.get(0).equals(getEmployeePayRollData(name));
+		
+	}
+	public void updateEmployeeSalary(String name,double salary) {
+		int result = employeePayRollDBService.updateEmployeeData(name,salary);
+		if(result == 0) return;
+		EmployeePayRollData employeePayRollData = this.getEmployeePayRollData(name);
+		if(employeePayRollData != null) employeePayRollData.salary = salary;
+		
+	}
+	
+	public EmployeePayRollData getEmployeePayRollData(String name) {
+		return this.employeePayRollList.stream()
+					.filter(employeePayRollDataItem -> employeePayRollDataItem.name.equals(name))
+					.findFirst()
+					.orElse(null);
+	}
+	
 
 }

@@ -7,6 +7,13 @@ public class EmployeePayRollData {
 	public String name;
 	public double salary;
 	public LocalDate startDate;
+
+	public EmployeePayRollData(int id, String name, double salary) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.salary = salary;
+	}
 	public EmployeePayRollData(int id, String name, double salary, LocalDate startDate) {
 		super();
 		this.id = id;
@@ -15,6 +22,7 @@ public class EmployeePayRollData {
 		this.startDate = startDate;
 	}
 	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

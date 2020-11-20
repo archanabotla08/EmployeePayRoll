@@ -22,6 +22,14 @@ public class EmployeePayRollTest {
 	public void givenEmployeePayRoll_WhenRetrived_ShouldMatchEmployeeCount() {
 		List<EmployeePayRollData> employeePayRollData = employeePayRollService.readPayRollData(IOService.DB_IO);
 		assertEquals(3, employeePayRollData.size());
+	}	
+
+	@Test
+	public void givenNewSalaryForEmployee_WhenUpdated_ShouldSyncWIthDB(){
+		List<EmployeePayRollData> employeePayRollData = employeePayRollService.readPayRollData(IOService.DB_IO);
+		employeePayRollService.updateEmployeeSalary("SHRUTI",4000000.00);
+		boolean result = employeePayRollService.checkEmployeePayRollInSyncWithDB("SHRUTI");
+		assertTrue(result);
 	}
 	
 }
