@@ -24,7 +24,7 @@ public class EmployeePayRollTest {
 	@Test
 	public void givenEmployeePayRoll_WhenRetrived_ShouldMatchEmployeeCount() {
 		List<EmployeePayRollData> employeePayRollData = employeePayRollService.readPayRollData(IOService.DB_IO);
-		assertEquals(3, employeePayRollData.size());
+		assertEquals(6, employeePayRollData.size());
 	}	
 
 	@Test
@@ -41,7 +41,7 @@ public class EmployeePayRollTest {
 		LocalDate endDate = LocalDate.of(2020, 12, 30);
 		List<EmployeePayRollData> employeePayRollData = 
 				employeePayRollService.readPayRollDataForDateRange(IOService.DB_IO,startDate,endDate);
-		assertEquals(2,employeePayRollData.size());
+		assertEquals(6,employeePayRollData.size());
 	}
 	
 	@Test
@@ -49,7 +49,14 @@ public class EmployeePayRollTest {
 		employeePayRollService.readPayRollData(IOService.DB_IO);
 		Map<String,Double> averageSalaryByGender = employeePayRollService.readAverageSalaryByGender(IOService.DB_IO);
 		assertTrue(averageSalaryByGender.get("F").equals(50000.0) &&
-				averageSalaryByGender.get("M").equals(65000.0) );
+				averageSalaryByGender.get("M").equals(126500.0) );
+	}
+	@Test
+	public void givenNewEmployee_WhenAdded_ShouldSyncWithDB() throws SQLException {
+		employeePayRollService.readPayRollData(IOService.DB_IO);
+		employeePayRollService.addEmployeePayRollData("Sri","M",1000000.0,LocalDate.now());
+		boolean result = employeePayRollService.checkEmployeePayRollInSyncWithDB("Sri");
+		assertTrue(result);
 	}
 }
 

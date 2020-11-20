@@ -58,6 +58,12 @@ public class EmployeePayRollService {
 			 return employeePayRollDBService.getAverageSalaryByGender();
 		return null;
 	}
+
+	public void addEmployeePayRollData(String name, String gender, double salary, LocalDate date) throws SQLException {
+		employeePayRollList.add(employeePayRollDBService.addEmployeeToPayRoll(name,gender,salary,date));
+		
+		
+	}
 	
 
 }
