@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.blz.employeepayrolltest_dbtest.EmployeePayRollException.ExceptionType;
 import com.mysql.cj.xdevapi.PreparableStatement;
 
 
@@ -88,16 +89,28 @@ public class EmployeePayRollDBService {
 			e.printStackTrace();
 		}
 	}
-	public int updateEmployeeData(String name,double salary) {
+	public int updateEmployeeData(String name,double salary) throws EmployeePayRollException {
 		return this.updateEmployeeDataUsingStatement(name,salary);
 	}
 	
-	public int updateEmployeeDataUsingStatement(String name,double salary) {
+	public int updateEmployeeDataUsingStatement(String name,double salary) throws EmployeePayRollException {
 		String sql = String.format("UPDATE employee_payroll_basic set salary=%.2d where name=%s", name,salary);
 		try(Connection connection = this.getConnection();){		
 			Statement statement = connection.createStatement();
 			return (statement.executeUpdate(sql));
 		} catch (SQLException e) {
+			throw new EmployeePayRollException("Wrong SQL query given", ExceptionType.WRONG_SQL);
+		}
+	}
+	
+	public int updateSalaryUsingSQL(String name,Double salary) throws SQLException {
+		String sql="UPDATE employee_payroll_basic SET salary=? WHERE name=?";
+		try(Connection connection=getConnection()){
+			PreparedStatement preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setDouble(1, salary);
+			preparedStatement.setString(2, name);
+			return preparedStatement.executeUpdate();
+		}catch (Exception e) {
 			e.printStackTrace();
 		}
 		return 0;

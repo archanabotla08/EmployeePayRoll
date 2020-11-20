@@ -25,7 +25,7 @@ public class EmployeePayRollTest {
 	}	
 
 	@Test
-	public void givenNewSalaryForEmployee_WhenUpdated_ShouldSyncWIthDB(){
+	public void givenNewSalaryForEmployee_WhenUpdated_ShouldSyncWIthDB() throws EmployeePayRollException{
 		List<EmployeePayRollData> employeePayRollData = employeePayRollService.readPayRollData(IOService.DB_IO);
 		employeePayRollService.updateEmployeeSalary("SHRUTI",4000000.00);
 		boolean result = employeePayRollService.checkEmployeePayRollInSyncWithDB("SHRUTI");

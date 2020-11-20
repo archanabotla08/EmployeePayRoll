@@ -27,7 +27,7 @@ public class EmployeePayRollService {
 		return employeePayRollDataList.get(0).equals(getEmployeePayRollData(name));
 		
 	}
-	public void updateEmployeeSalary(String name,double salary) {
+	public void updateEmployeeSalary(String name,double salary) throws EmployeePayRollException {
 		int result = employeePayRollDBService.updateEmployeeData(name,salary);
 		if(result == 0) return;
 		EmployeePayRollData employeePayRollData = this.getEmployeePayRollData(name);
