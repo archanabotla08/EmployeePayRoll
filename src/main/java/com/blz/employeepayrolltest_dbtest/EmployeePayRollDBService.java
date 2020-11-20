@@ -1,6 +1,7 @@
 package com.blz.employeepayrolltest_dbtest;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,6 +10,8 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.crypto.Data;
 
 import com.blz.employeepayrolltest_dbtest.EmployeePayRollException.ExceptionType;
 import com.mysql.cj.xdevapi.PreparableStatement;
@@ -41,15 +44,8 @@ public class EmployeePayRollDBService {
 	}
 	public List<EmployeePayRollData> readData() {
 		String sql = "SELECT* FROM employee_payroll_basic;";
-		List<EmployeePayRollData> employeePayrollList = new ArrayList<EmployeePayRollData>();
-		try(Connection connection = this.getConnection();){		
-			Statement statement = connection.createStatement();
-			ResultSet resultSet = statement.executeQuery(sql);
-			employeePayrollList = this.getEmployeePayRollData(resultSet);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return employeePayrollList;
+		return this.getEmployeePayRollDataUsingDB(sql);
+		
 	}
 	public List<EmployeePayRollData> getEmployeePayRollData(String name) {
 		List<EmployeePayRollData> employeePayRollList = null;
@@ -114,6 +110,24 @@ public class EmployeePayRollDBService {
 			e.printStackTrace();
 		}
 		return 0;
+	}
+
+	public List<EmployeePayRollData> getEmployeePayRollForDateRange(LocalDate startDate, LocalDate endDate) {
+		String sql = String.format("SELECT * FROM EMPLOYEE_PAYROLL_BASIC WHERE START BETWEEN '%s' AND '%s' ;",
+									Date.valueOf(startDate),Date.valueOf(endDate));
+		return this.getEmployeePayRollDataUsingDB(sql);
+	}
+
+	private List<EmployeePayRollData> getEmployeePayRollDataUsingDB(String sql) {
+		List<EmployeePayRollData> employeePayrollList = new ArrayList<EmployeePayRollData>();
+		try(Connection connection = this.getConnection();){		
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(sql);
+			employeePayrollList = this.getEmployeePayRollData(resultSet);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return employeePayrollList;
 	}
 	
 }

@@ -1,5 +1,6 @@
 package com.blz.employeepayrolltest_dbtest;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -40,6 +41,14 @@ public class EmployeePayRollService {
 					.filter(employeePayRollDataItem -> employeePayRollDataItem.name.equals(name))
 					.findFirst()
 					.orElse(null);
+	}
+
+	public List<EmployeePayRollData> readPayRollDataForDateRange(IOService ioService, LocalDate startDate,
+			LocalDate endDate) {
+		if(ioService.equals(IOService.DB_IO)) {
+			return employeePayRollDBService.getEmployeePayRollForDateRange(startDate,endDate);
+		}
+		return null;
 	}
 	
 
