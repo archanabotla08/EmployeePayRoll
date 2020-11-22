@@ -9,7 +9,7 @@ public class EmployeePayRollData {
 	public double salary;
 	public LocalDate startDate;
 	public String companyName;
-	public String companyId;
+	public int companyId;
 	public String department;
 
 	public EmployeePayRollData(int id, String name, double salary) {
@@ -27,7 +27,7 @@ public class EmployeePayRollData {
 	}
 	
 	public EmployeePayRollData(int id, String name, double salary, LocalDate startDate, String companyName,
-			String companyId, String department) {
+			int companyId, String department) {
 		super();
 		this.id = id;
 		this.name = name;

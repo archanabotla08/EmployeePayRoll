@@ -51,10 +51,17 @@ public class EmployeePayRollTest {
 		assertTrue(averageSalaryByGender.get("F").equals(50000.0) &&
 				averageSalaryByGender.get("M").equals(126500.0) );
 	}
+//	@Test
+//	public void givenNewEmployee_WhenAdded_ShouldSyncWithDB() throws SQLException {
+//		employeePayRollService.readPayRollData(IOService.DB_IO);
+//		employeePayRollService.addEmployeePayRollData("Sri","M",1000000.0,LocalDate.now());
+//		boolean result = employeePayRollService.checkEmployeePayRollInSyncWithDB("Sri");
+//		assertTrue(result);
+//	}
 	@Test
-	public void givenNewEmployee_WhenAdded_ShouldSyncWithDB() throws SQLException {
+	public void givenNewEmployee_WhenAdded_ShouldSyncWithDBUC11() throws SQLException {
 		employeePayRollService.readPayRollData(IOService.DB_IO);
-		employeePayRollService.addEmployeePayRollData("Sri","M",1000000.0,LocalDate.now());
+		employeePayRollService.addEmployeePayRollDataUC11("Sri","M",1000000.0,LocalDate.now(),"jio",1,"testing");
 		boolean result = employeePayRollService.checkEmployeePayRollInSyncWithDB("Sri");
 		assertTrue(result);
 	}

@@ -64,6 +64,12 @@ public class EmployeePayRollService {
 		
 		
 	}
+
+	public void addEmployeePayRollDataUC11(String name, String gender, double salary, LocalDate date, String companyName,
+			int companyId, String department) {
+		
+		employeePayRollList.add(employeePayRollDBService.addEmployeeToPayRollUC11(name,gender,salary,date,companyName,companyId,department));
+	}
 	
 
 }
