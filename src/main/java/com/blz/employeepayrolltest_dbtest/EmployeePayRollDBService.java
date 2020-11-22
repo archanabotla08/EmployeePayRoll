@@ -187,7 +187,12 @@ public class EmployeePayRollDBService {
 			employeePayRollData = new EmployeePayRollData(employeeId, name, salary,date);
 		}catch(SQLException e) {
 			e.printStackTrace();
-			connection.rollback();
+			try {
+				connection.rollback();
+			}catch(SQLException ex) {
+				ex.printStackTrace();
+			}
+			
 		}
 		try(Statement statement = connection.createStatement();){
 			double deductions = salary * 0.2 ;
