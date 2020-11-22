@@ -24,7 +24,7 @@ public class EmployeePayRollTest {
 	@Test
 	public void givenEmployeePayRoll_WhenRetrived_ShouldMatchEmployeeCount() {
 		List<EmployeePayRollData> employeePayRollData = employeePayRollService.readPayRollData(IOService.DB_IO);
-		assertEquals(6, employeePayRollData.size());
+		assertEquals(3, employeePayRollData.size());
 	}	
 
 	@Test
@@ -41,7 +41,7 @@ public class EmployeePayRollTest {
 		LocalDate endDate = LocalDate.of(2020, 12, 30);
 		List<EmployeePayRollData> employeePayRollData = 
 				employeePayRollService.readPayRollDataForDateRange(IOService.DB_IO,startDate,endDate);
-		assertEquals(6,employeePayRollData.size());
+		assertEquals(5,employeePayRollData.size());
 	}
 	
 	@Test
