@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class EmployeePayRollService {
 	public enum IOService {
-		DB_IO
+		DB_IO,FILE_IO
 	}
 
 	private static List<EmployeePayRollData> employeePayRollList;
@@ -70,6 +70,31 @@ public class EmployeePayRollService {
 		
 		employeePayRollList.add(employeePayRollDBService.addEmployeeToPayRollUC11(name,gender,salary,date,companyName,companyId,department));
 	}
+
+	public void addEmployeePayRollData(List<EmployeePayRollData> employeePayRollList) {
+		employeePayRollList.forEach(employeePayRollData -> {
+			try {
+				this.addEmployeePayRollData(employeePayRollData.name,
+						employeePayRollData.gender,
+						employeePayRollData.salary, 
+						employeePayRollData.startDate
+						);
+				
+			} catch (SQLException e) {
+				
+				e.printStackTrace();
+			}
+			
+		});
+		
+	}
+
+	public long countEnteries(IOService ioService) {
+		if(ioService.equals(IOService.FILE_IO))
+			return new EmployeePayRollService().countEnteries(ioService);
+		return employeePayRollList.size();
+	}
+
 	
 
 }

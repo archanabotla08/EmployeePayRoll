@@ -268,9 +268,9 @@ public class EmployeePayRollDBService {
 			}
 		}
 		try(Statement statement = connection.createStatement();){
-			String department_Name = department; 
-			String sql = String.format("INSERT INTO department_details (department_name,employee_id )" +
-						"VALUES ( %s, %s)", department_Name,employeeId);
+			String department_name = department; 
+			String sql = String.format("INSERT INTO Department_Details_Employee (EMPLOYEE_ID,DEPARTMENT_NAME)" +
+						"VALUES ( %s, %s)",employeeId , department_name);
 			int rowAffected = statement.executeUpdate(sql);
 			if(rowAffected == 1) {
 				employeePayRollData =  new EmployeePayRollData(employeeId,name,salary,date);					
@@ -288,7 +288,7 @@ public class EmployeePayRollDBService {
 		try(Statement statement = connection.createStatement();){
 			String company_Name = companyName;
 			int company_id = companyId;
-			String sql = String.format("INSERT INTO company_details (company_id,company_name,employee_id )" +
+			String sql = String.format("INSERT INTO company_details (company_id,company_name,EMPLOYEE_ID )" +
 						"VALUES ( %s, %s, %s)",company_id,company_Name ,employeeId);
 			int rowAffected = statement.executeUpdate(sql);
 			if(rowAffected == 1) {
