@@ -71,7 +71,7 @@ public class EmployeePayRollTest {
 //	}
 	
 	@Test
-	public void givenEmployees_WhenAddedToDb_ShouldMatchEmployeeEntries_MultipleThreadingUC1_UC2_UC3() {
+	public void givenEmployees_WhenAddedToDb_ShouldMatchEmployeeEntries_MultipleThreadingUC1_UC2_UC3_UC4() {
 		EmployeePayRollData[] arrayOfEmps = {
 			new EmployeePayRollData(0, "Shr","F" ,100000.0,LocalDate.now()),
 			new EmployeePayRollData(0, "Vaibhav", "M",100000.0,LocalDate.now()),
