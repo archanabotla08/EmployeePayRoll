@@ -71,7 +71,7 @@ public class EmployeePayRollTest {
 //	}
 	
 	@Test
-	public void givenEmployees_WhenAddedToDb_ShouldMatchEmployeeEntries_MultipleThreadingUC1() {
+	public void givenEmployees_WhenAddedToDb_ShouldMatchEmployeeEntries_MultipleThreadingUC1_UC2_UC3() {
 		EmployeePayRollData[] arrayOfEmps = {
 			new EmployeePayRollData(0, "Shr","F" ,100000.0,LocalDate.now()),
 			new EmployeePayRollData(0, "Vaibhav", "M",100000.0,LocalDate.now()),
@@ -83,7 +83,7 @@ public class EmployeePayRollTest {
 		
 		employeePayRollService.readPayRollData(IOService.DB_IO);
 		Instant start = Instant.now();
-		employeePayRollService.addEmployeePayRollData_MultipleThreadUC1(Arrays.asList(arrayOfEmps));
+		employeePayRollService.addEmployeeToPayRollWIthThreads(Arrays.asList(arrayOfEmps));
 		Instant end = Instant.now();
 		System.out.println("Duration Without Thread: " + Duration.between(start, end));
 		Instant threadStart = Instant.now();
