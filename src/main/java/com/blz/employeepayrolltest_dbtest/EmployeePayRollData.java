@@ -2,6 +2,7 @@ package com.blz.employeepayrolltest_dbtest;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class EmployeePayRollData {
 	public int id;
@@ -11,6 +12,7 @@ public class EmployeePayRollData {
 	public String companyName;
 	public int companyId;
 	public String department;
+	public String gender;
 
 	public EmployeePayRollData(int id, String name, double salary) {
 		super();
@@ -37,6 +39,16 @@ public class EmployeePayRollData {
 		this.companyId = companyId;
 		this.department = department;
 	}
+	public EmployeePayRollData(int id, String name, String gender, double salary, LocalDate startDate) {
+		this(id,name,salary,startDate);
+		this.gender = gender;
+	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(name,gender,salary,startDate);
+	}
+	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

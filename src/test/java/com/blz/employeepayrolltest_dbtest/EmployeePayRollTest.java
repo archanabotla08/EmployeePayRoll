@@ -3,10 +3,14 @@ package com.blz.employeepayrolltest_dbtest;
 import static org.junit.Assert.*;
 
 import java.sql.SQLException;
+import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -51,19 +55,44 @@ public class EmployeePayRollTest {
 		assertTrue(averageSalaryByGender.get("F").equals(50000.0) &&
 				averageSalaryByGender.get("M").equals(126500.0) );
 	}
-//	@Test
-//	public void givenNewEmployee_WhenAdded_ShouldSyncWithDB() throws SQLException {
-//		employeePayRollService.readPayRollData(IOService.DB_IO);
-//		employeePayRollService.addEmployeePayRollData("Sri","M",1000000.0,LocalDate.now());
-//		boolean result = employeePayRollService.checkEmployeePayRollInSyncWithDB("Sri");
-//		assertTrue(result);
-//	}
 	@Test
-	public void givenNewEmployee_WhenAdded_ShouldSyncWithDBUC11() throws SQLException {
+	public void givenNewEmployee_WhenAdded_ShouldSyncWithDB() throws SQLException {
 		employeePayRollService.readPayRollData(IOService.DB_IO);
-		employeePayRollService.addEmployeePayRollDataUC11("Sri","M",1000000.0,LocalDate.now(),"jio",1,"testing");
+		employeePayRollService.addEmployeePayRollData("Sri","M",1000000.0,LocalDate.now());
 		boolean result = employeePayRollService.checkEmployeePayRollInSyncWithDB("Sri");
 		assertTrue(result);
 	}
+//	@Test
+//	public void givenNewEmployee_WhenAdded_ShouldSyncWithDBUC11() throws SQLException {
+//		employeePayRollService.readPayRollData(IOService.DB_IO);
+//		employeePayRollService.addEmployeePayRollDataUC11("Sri","M",1000000.0,LocalDate.now(),"jio",1,"testing");
+//		boolean result = employeePayRollService.checkEmployeePayRollInSyncWithDB("Sri");
+//		assertTrue(result);
+//	}
+	
+	@Test
+	public void givenEmployees_WhenAddedToDb_ShouldMatchEmployeeEntries_MultipleThreadingUC1() {
+		EmployeePayRollData[] arrayOfEmps = {
+			new EmployeePayRollData(0, "Shr","F" ,100000.0,LocalDate.now()),
+			new EmployeePayRollData(0, "Vaibhav", "M",100000.0,LocalDate.now()),
+			new EmployeePayRollData(0, "Krishna", "M",100000.0,LocalDate.now()),
+			new EmployeePayRollData(0, "Shivani", "F",100000.0,LocalDate.now()),
+			new EmployeePayRollData(0, "Anmol","M" ,100000.0,LocalDate.now()),
+			new EmployeePayRollData(0, "Swati", "F",100000.0,LocalDate.now()),
+		};
+		
+		employeePayRollService.readPayRollData(IOService.DB_IO);
+		Instant start = Instant.now();
+		employeePayRollService.addEmployeePayRollData_MultipleThreadUC1(Arrays.asList(arrayOfEmps));
+		Instant end = Instant.now();
+		System.out.println("Duration Without Thread: " + Duration.between(start, end));
+		Instant threadStart = Instant.now();
+		employeePayRollService.addEmployeeToPayRollWIthThreads(Arrays.asList(arrayOfEmps));
+		Instant threadEnd = Instant.now();
+		System.out.println("Duration With Thread : " + Duration.between(threadStart, threadEnd));
+		employeePayRollService.printData(IOService.DB_IO);
+		assertEquals(13, employeePayRollService.countEnteries(IOService.DB_IO));
+	}
+	
 }
 
